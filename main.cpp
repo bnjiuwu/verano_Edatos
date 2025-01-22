@@ -1,115 +1,129 @@
 #include <fstream>
 #include <sstream>
 #include <string>
-
+#include <climits>
 #include <iostream>
 #include <vector>
 #include <stack>
 #include <queue>
 using namespace std;
 
-/*class Ady{
-    public:
-    Ady* sig;
-    Ady* ref;
-    Ady(){}
-
-};
-class Nodo{
-public:
-    char dato;
-    Nodo* sig;
-    Ady* ady;
-    Nodo(char dato){
-        this->dato = dato;
-        sig = nullptr;
-    }
-
-};
-
-
-class Arco{
-public:
-    int peso;
-    Arco* sig;
-    Nodo* first;
-    Nodo* second;
-    Arco(){}
-};
-*/
-void bfs(vector<vector<int>>& graf,int inicio)
+void bfs(vector<vector<int>> &graf, int inicio)
 {
     // variables
     int n = graf.size();
     vector<bool> visited(n, false);
     queue<int> kyu;
-    //vector<int> caminosMenores(n,INT_MAX);
-
+    
 
     // acciones
     visited[inicio] = true;
     kyu.push(inicio);
-    //caminosMenores[0] = 0;
+    // distancias[0] = 0;
+    cout << "bfs" << endl;
 
-
-    while(!kyu.empty()){
+    while (!kyu.empty())
+    {
         int nodo = kyu.front();
         kyu.pop();
-
-        for(int i = 0; i < n; ++i){
-            if(graf[nodo][i] != 0 && !visited[i]){
+        cout << nodo << endl;
+        for (int i = 0; i < n; ++i)
+        {
+            if (graf[nodo][i] != 0 && !visited[i])
+            {
                 visited[i] = true;
                 kyu.push(i);
             }
         }
-
     }
-
-    
 }
 
-void dikstra(vector<vector<int>>& graf, int source)
+int menorDistanci(vector<int>&caminos, vector<bool>& visited){
+    int menor = INT_MAX;
+    int menorIndex = -1;
+
+    for(int i = 0; i < caminos.size(); ++i){
+        if(!visited[i] && caminos[i] <= menor){
+            menor = caminos[i];
+            menorIndex = i;
+        }
+    }
+    return menorIndex;
+}
+
+int dikstra(vector<vector<int>>& graf, int desitno)
 {
     int n = graf.size();
     vector<bool> visited(n, false);
-    vector<int> sumaCaminos;
-    queue<int> kyu;
-    visited[source] = true;
-    sumaCaminos.push_back(0);
-}
+    vector<int> distancias(n,INT_MAX);
 
+    distancias[0] = 0;
 
-int main()
-{
-
-    bool flag = true;
-    while (flag)
-    {
-        char x;
-        cin >> x;
-
-        int nodo = x;
-
-        cout << "nodo " << nodo << " " << x << endl;
-        if (nodo < 65 || nodo > 90)
+    for(int i = 0;i < n - 1; ++i){
+        //elegir nodo con la distacia menor
+        int u = menorDistanci(distancias,visited);
+        visited[u] = true;
+        // si alcanza el nodo destino
+        if(u == desitno){
+            return distancias[u];
+        }
+        // actuaizar las distancias de los nodos adyacentes no visitaddos
+        for (int k = 0; k < n; ++k)
         {
-            flag = false;
-            break;
+            if(!visited[k] && graf[u][k] && distancias[u] != INT_MAX && distancias[u] + graf[u][k] < distancias[k]){
+                distancias[k] = distancias[u] + graf[u][k];
+            }
         }
     }
 
-    std::ifstream file("matriz_N.txt");
-    if (!file.is_open()) {
-        cout << "Error al abrir el archivo" << std::endl;
-        return 1;
-    }
+    return distancias[desitno] == INT_MAX ? -1 : distancias[desitno];
+    
+}
 
-    string line;
-    while (getline(file,line)) { // Read line by line
-        
-        cout<<line<<endl;
-    }
+int chartoInt(char nodo)
+{
 
-    file.close(); // Close the file
+    // A - Z == 65 - 90
+    int nodo_int = nodo;
+    if(nodo_int < 65 || nodo_int > 90){
+        cout <<"nodo no permitido. (solo A -> Z) :v "<<endl;
+        return -1;
+    }
+    return nodo_int - 65;
+}
+
+
+void printCaminosDestino(vector<int>& caminos){
+
+    for(int i = 0; i < caminos.size(); i++){
+        char x = caminos[i] + 65;
+        cout<<x<<" -> ";
+    }
+    cout<<endl;
+
+}
+
+int main()
+{
+    char x;
+    cin>>x;
+
+    int destino = chartoInt(x);
+    cout<<destino<<endl;
+
+    vector<vector<int>> adj = {
+        {0, 2, 3, 0, 0, 0, 0},
+        {0, 0, 0, 4, 0, 0, 0},
+        {0, 0, 0, 1, 0, 0, 0},
+        {0, 0, 0, 0, 1, 2, 0},
+        {0, 0, 0, 0, 0, 0, 2},
+        {0, 0, 0, 0, 0, 0, 3},
+        {0, 0, 0, 0, 0, 0, 0}
+
+    };
+   int result =  dikstra(adj,destino);
+
+   cout<< result <<endl;
+    
     return 0;
 };
