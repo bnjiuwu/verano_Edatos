@@ -1,11 +1,13 @@
-#include <vector>
 #include <iostream>
-#include <climits>
-#include <string>
 #include <fstream>
+#include <vector>
 #include <sstream>
+#include <string>
+#include <climits>
 #include <queue>
 using namespace std;
+
+
 
 void bfs(vector<vector<int>> &graf, int inicio)
 {
@@ -86,16 +88,16 @@ pair<vector<int>,int> dikstra(vector<vector<int>>& graf, int desitno)
 
     if(distancias[desitno] == INT_MAX) return {{},-1};
 
-    vector<int> fianlcam;
-
+    vector<int> caminosTomados;
+    // chantar caminos recorridos
     for (int actual = desitno; actual != -1; actual = caminosRec[actual]) {
-        fianlcam.push_back(actual);
+        caminosTomados.push_back(actual);
     }
 
-    // Invertir el camino manualmente
-    vector<int> caminoOrdenado(fianlcam.size());
-    for (int i = 0; i < fianlcam.size(); ++i) {
-        caminoOrdenado[fianlcam.size() - 1 - i] = fianlcam[i];
+    // Invertir el camino 
+    vector<int> caminoOrdenado(caminosTomados.size());
+    for (int i = 0; i < caminosTomados.size(); ++i) {
+        caminoOrdenado[caminosTomados.size() - 1 - i] = caminosTomados[i];
     }
 
     return {caminoOrdenado,distancias[desitno]};
@@ -124,44 +126,49 @@ void printCaminosDestino(vector<int>& caminos){
 
 }
 
-vector<vector<int>> leerGrafoDesdeArchivo(const string& nombreArchivo) {
-    ifstream archivo(nombreArchivo);
-   
-    string linea;
-    vector<vector<int>> graf;
+vector<vector<int>> leerGrafoDesdeArchivo(string& nombreArchivo) {
+    ifstream arch(nombreArchivo);
 
-    if(getline(archivo,linea)){
+    string linea;
+    vector<vector<int>> matrix;
+
+
+    cout<<nombreArchivo<<endl;
+
+    if(getline(arch,linea)){
         int n = stoi(linea);
-        while(getline(archivo,linea)){
+
+        while(getline(arch,linea)){
             vector<int> fila;
             stringstream ss(linea);
-            string valpos;
 
-            while(getline(ss,valpos)){
-                fila.push_back(stoi(valpos)); // char to int segun [fila][col]
+            string valopos;
+            while(getline(ss,valopos,' ')){
+                fila.push_back(stoi(valopos));
             }
-            graf.push_back(fila);
+            matrix.push_back(fila);
         }
+    } else {
+        cout << "No se pudo abrir el archivo.\n";
     }
-    else{
-        cout<<"no esta el arch"<<endl;
-    }
-    return graf;
+
+    return matrix;
 }
+
 int main()
 {
 
-    string nombreArchivo = "adyMariz.txt";
-    vector<vector<int>> grafo = leerGrafoDesdeArchivo(nombreArchivo);
+     string filename = "adyMatriz.txt";  // Asegúrate de usar una ruta relativa válida
+    vector<vector<int>> matrix = leerGrafoDesdeArchivo(filename);
 
-    cout << "Matriz de adyacencia:" << endl;
-    for (const auto& fila : grafo) {
-        for (int valor : fila) {
-            cout << valor << " ";
+    // Mostrar la matriz
+    cout << "Matriz leida desde el archivo:\n";
+    for (const auto& row : matrix) {
+        for (int value : row) {
+            cout << value << " ";
         }
         cout << endl;
     }
-
 
 
     char x;
@@ -181,7 +188,7 @@ int main()
         {0, 0, 0, 0, 0, 0, 0}
 
     };
-   auto result =  dikstra(grafo,destino);
+   auto result =  dikstra(adj,destino);
 
 
 
