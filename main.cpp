@@ -1,10 +1,9 @@
+#include <vector>
+#include <iostream>
+#include <climits>
+#include <string>
 #include <fstream>
 #include <sstream>
-#include <string>
-#include <climits>
-#include <iostream>
-#include <vector>
-#include <stack>
 #include <queue>
 using namespace std;
 
@@ -39,6 +38,7 @@ void bfs(vector<vector<int>> &graf, int inicio)
 }
 
 int menorDistanci(vector<int>&caminos, vector<bool>& visited){
+
     int menor = INT_MAX;
     int menorIndex = -1;
 
@@ -51,9 +51,11 @@ int menorDistanci(vector<int>&caminos, vector<bool>& visited){
     return menorIndex;
 }
 
-int dikstra(vector<vector<int>>& graf, int desitno)
+pair<vector<int>,int> dikstra(vector<vector<int>>& graf, int desitno)
 {
     int n = graf.size();
+    
+    vector<int> caminosRec(n,-1); // follow da way
     vector<bool> visited(n, false);
     vector<int> distancias(n,INT_MAX);
 
@@ -63,21 +65,40 @@ int dikstra(vector<vector<int>>& graf, int desitno)
         //elegir nodo con la distacia menor
         int u = menorDistanci(distancias,visited);
         visited[u] = true;
-        // si alcanza el nodo destino
-        if(u == desitno){
-            return distancias[u];
+        if(u == -1) break; // si ya se visitaron todos los nodos
+        
+        if(u == desitno){ // si alcanza el nodo destino
+            break;
+
         }
         // actuaizar las distancias de los nodos adyacentes no visitaddos
         for (int k = 0; k < n; ++k)
         {
             if(!visited[k] && graf[u][k] && distancias[u] != INT_MAX && distancias[u] + graf[u][k] < distancias[k]){
+
                 distancias[k] = distancias[u] + graf[u][k];
+                
+                caminosRec[k] = u;
             }
         }
     }
 
-    return distancias[desitno] == INT_MAX ? -1 : distancias[desitno];
-    
+
+    if(distancias[desitno] == INT_MAX) return {{},-1};
+
+    vector<int> fianlcam;
+
+    for (int actual = desitno; actual != -1; actual = caminosRec[actual]) {
+        fianlcam.push_back(actual);
+    }
+
+    // Invertir el camino manualmente
+    vector<int> caminoOrdenado(fianlcam.size());
+    for (int i = 0; i < fianlcam.size(); ++i) {
+        caminoOrdenado[fianlcam.size() - 1 - i] = fianlcam[i];
+    }
+
+    return {caminoOrdenado,distancias[desitno]};
 }
 
 int chartoInt(char nodo)
@@ -103,9 +124,48 @@ void printCaminosDestino(vector<int>& caminos){
 
 }
 
+vector<vector<int>> leerGrafoDesdeArchivo(const string& nombreArchivo) {
+    ifstream archivo(nombreArchivo);
+   
+    string linea;
+    vector<vector<int>> graf;
+
+    if(getline(archivo,linea)){
+        int n = stoi(linea);
+        while(getline(archivo,linea)){
+            vector<int> fila;
+            stringstream ss(linea);
+            string valpos;
+
+            while(getline(ss,valpos)){
+                fila.push_back(stoi(valpos)); // char to int segun [fila][col]
+            }
+            graf.push_back(fila);
+        }
+    }
+    else{
+        cout<<"no esta el arch"<<endl;
+    }
+    return graf;
+}
 int main()
 {
+
+    string nombreArchivo = "adyMariz.txt";
+    vector<vector<int>> grafo = leerGrafoDesdeArchivo(nombreArchivo);
+
+    cout << "Matriz de adyacencia:" << endl;
+    for (const auto& fila : grafo) {
+        for (int valor : fila) {
+            cout << valor << " ";
+        }
+        cout << endl;
+    }
+
+
+
     char x;
+    cout<<"ingrese destino(A -> Z):  ";
     cin>>x;
 
     int destino = chartoInt(x);
@@ -121,9 +181,15 @@ int main()
         {0, 0, 0, 0, 0, 0, 0}
 
     };
-   int result =  dikstra(adj,destino);
+   auto result =  dikstra(grafo,destino);
 
-   cout<< result <<endl;
+
+
+
+    cout<<"camino tomado para llegar al destino"<<endl;
+   printCaminosDestino(result.first);
+
+    cout<<"distancia total "<<result.second<<endl;
     
     return 0;
 };
