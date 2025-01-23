@@ -7,7 +7,17 @@
 #include <string>
 #include <climits>
 using namespace std;
+class Nodo{
+    public:
+    char letra;
+    int peso;
+    vector<Nodo*> hijos;
 
+    Nodo(char letra,int peso){
+        this->letra = letra;
+        this->peso = peso;
+    }
+};
 
 int menorDistanci(vector<int> &caminos, vector<bool> &visited)
 {
@@ -26,7 +36,7 @@ int menorDistanci(vector<int> &caminos, vector<bool> &visited)
     return menorIndex;
 }
 
-pair<vector<int>, int> dijkstra(vector<vector<int>> &graf, int desitno)
+pair<vector<int>,vector<int>> dijkstra(vector<vector<int>> &graf, int desitno)
 {
     int n = graf.size();
 
@@ -40,6 +50,7 @@ pair<vector<int>, int> dijkstra(vector<vector<int>> &graf, int desitno)
     {
         // elegir nodo con la distacia menor
         int u = menorDistanci(distancias, visited);
+
         visited[u] = true;
         if (u == -1)
             break; // si ya se visitaron todos los nodos
@@ -51,7 +62,7 @@ pair<vector<int>, int> dijkstra(vector<vector<int>> &graf, int desitno)
         // actuaizar las distancias de los nodos adyacentes no visitaddos
         for (int k = 0; k < n; ++k)
         {
-            if (!visited[k] && graf[u][k] && distancias[u] != INT_MAX && distancias[u] + graf[u][k] < distancias[k])
+            if (!visited[k] && graf[u][k] > 0 && distancias[u] != INT_MAX && distancias[u] + graf[u][k] < distancias[k])
             {
 
                 distancias[k] = distancias[u] + graf[u][k];
@@ -62,7 +73,7 @@ pair<vector<int>, int> dijkstra(vector<vector<int>> &graf, int desitno)
     }
 
     if (distancias[desitno] == INT_MAX)
-        return {{}, -1};
+        return {{}, {}};
 
     vector<int> caminosTomados;
     // chantar caminos recorridos
@@ -78,18 +89,23 @@ pair<vector<int>, int> dijkstra(vector<vector<int>> &graf, int desitno)
         caminoOrdenado[caminosTomados.size() - 1 - i] = caminosTomados[i];
     }
     //retornar vector camino y distancia recorrida
-    return {caminoOrdenado, distancias[desitno]};
+    return {caminoOrdenado, distancias};
 }
 
-void printCaminosDestino(vector<int>& caminos)
-{
-
+void printCaminosDestino(vector<int>& caminos, vector<int>& distancias) {
     cout << "Camino: ";
-            for (char nodo : caminos) {
-                cout << char('A' + nodo) << " -> ";
-            }
-            cout<<"fin"<<endl;
+
+    for (int i = 0; i < caminos.size(); ++i) {
+        int nodo = caminos[i]; // Nodo actual en el camino
+        int distanciaAcum = distancias[nodo]; // Tomar la distancia acumulada real desde el vector de distancias
+        cout << char('A' + nodo) << "(" << distanciaAcum << ")";
+        if (i < caminos.size() - 1) {
+            cout << " -> ";
+        }
+    }
+    cout << " -> fin" << endl;
 }
+
 
 bool esNumeroValido(string& entrada) {
     
@@ -163,15 +179,15 @@ void buscarNodos(vector<vector<int>> &grafo)
             continue;
         }
 
-        auto[camino,distancia] = dijkstra(grafo, destino);
+        auto[camino,distancias] = dijkstra(grafo, destino);
 
 
-        if (distancia == -1) {
+        if (distancias.empty()) {
             cout << "No hay un camino hacia el nodo " << x << endl;
         } else {
-            printCaminosDestino(camino);
+            printCaminosDestino(camino,distancias);
             cout<<endl;
-            cout << "Distancia total: " << distancia << endl;
+            cout << "Distancia total: " << distancias[destino] << endl;
         }
        
        // Preguntar si desea continuar, con control de errores
