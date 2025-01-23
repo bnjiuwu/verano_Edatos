@@ -92,7 +92,7 @@ void printCaminosDestino(vector<int>& caminos)
 }
 
 bool esNumeroValido(string& entrada) {
-    // Verificar si toda la entrada son 
+    
     for (char c : entrada) {
         if (!isdigit(c)) {
             return false;
