@@ -15,13 +15,23 @@ Pasos básicos del algoritmo:
 - Repetir hasta que todos los nodos hayan sido procesados o hasta que se alcance el nodo destino.
 
 ## Runear el codigo
-Compilar el codigo utilizando el siguiente comando en la terminal: g++ nombreDelArchivo.cpp -o nombreX \n
+Compilar el codigo utilizando el siguiente comando en la terminal: g++ nombreDelArchivo.cpp -o nombreX 
 
 (*) Comppilar con modo depuracion (opcional)(util para debugging): g++ nombreDelArchivo.cpp -o nombreX -g
 Para runear una vez compilado: ./nombreX
 
+
+
 ## Archivos txt
 En la carpeta output hay 6 archivos .txt con diferentes grafos. Para probarlos cambiar el nombre del archivo en la linea 224 en el main().
+
+## Para runear el codigo con el archivo txt seleccionado.
+### En codespace
+- tener el archivo txt en la misma carpeta que el archivo.cpp
+
+### en visual studio code
+- tener el archivo txt en la carpeta output donde esta el ejecutable.
+
 ### Archivos.
 - adyMatriz.txt
 - grafo_1.txt
