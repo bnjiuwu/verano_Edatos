@@ -19,7 +19,7 @@ Compilar el codigo utilizando el siguiente comando en la terminal: g++ nombreDel
 (*) Comppilar con modo depuracion (opcional)(util para debugging): g++ nombreDelArchivo.cpp -o nombreX -g
 Para runear una vez compilado: ./nombreX
 
-## Archivos txt.
+## Archivos txt
 En la carpeta output hay 6 archivos .txt con diferentes grafos. Para probarlos cambiar el nombre del archivo en la linea 224 en el main().
 ### Archivos.
 - adyMatriz.txt
@@ -29,9 +29,9 @@ En la carpeta output hay 6 archivos .txt con diferentes grafos. Para probarlos c
 - grafo_4.txt
 - grafo_5.txt
 
-
+el archivo adyMatriz.txt se representa asi.
 ![adyMatriz](https://github.com/user-attachments/assets/e86a0b6e-b08c-439e-9c24-3e744626ca9d)
 
 
-![adyMatriz](https://github.com/user-attachments/assets/04e4408e-3e88-4064-86b0-52c8ce5705df)
+
 
