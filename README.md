@@ -14,13 +14,24 @@ Pasos básicos del algoritmo:
 - Iterar sobre los nodos no visitados y actualizar las distancias de los nodos adyacentes si se encuentra un camino más corto.
 - Repetir hasta que todos los nodos hayan sido procesados o hasta que se alcance el nodo destino.
 
-## Archivos txt.
-En la carpeta output hay 6 archivos .txt con diferentes grafos. Para probarlos cambiar el nombre del archivo en la linea 224 en el main().
-
 ## Runear el codigo
 Compilar el codigo utilizando el siguiente comando en la terminal: g++ nombreDelArchivo.cpp -o nombreX \n
 (*) Comppilar con modo depuracion (opcional)(util para debugging): g++ nombreDelArchivo.cpp -o nombreX -g
 Para runear una vez compilado: ./nombreX
 
+## Archivos txt.
+En la carpeta output hay 6 archivos .txt con diferentes grafos. Para probarlos cambiar el nombre del archivo en la linea 224 en el main().
+### Archivos.
+- adyMatriz.txt
+- grafo_1.txt
+- grafo_2.txt
+- grafo_3.txt
+- grafo_4.txt
+- grafo_5.txt
 
+
+![adyMatriz](https://github.com/user-attachments/assets/e86a0b6e-b08c-439e-9c24-3e744626ca9d)
+
+
+![adyMatriz](https://github.com/user-attachments/assets/04e4408e-3e88-4064-86b0-52c8ce5705df)
 
