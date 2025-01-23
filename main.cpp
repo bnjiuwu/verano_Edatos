@@ -6,37 +6,8 @@
 
 #include <string>
 #include <climits>
-#include <queue>
 using namespace std;
 
-void bfs(vector<vector<int>> &graf, int inicio)
-{
-    // variables
-    int n = graf.size();
-    vector<bool> visited(n, false);
-    queue<int> kyu;
-
-    // acciones
-    visited[inicio] = true;
-    kyu.push(inicio);
-    // distancias[0] = 0;
-    cout << "bfs" << endl;
-
-    while (!kyu.empty())
-    {
-        int nodo = kyu.front();
-        kyu.pop();
-        cout << nodo << endl;
-        for (int i = 0; i < n; ++i)
-        {
-            if (graf[nodo][i] != 0 && !visited[i])
-            {
-                visited[i] = true;
-                kyu.push(i);
-            }
-        }
-    }
-}
 
 int menorDistanci(vector<int> &caminos, vector<bool> &visited)
 {
@@ -130,8 +101,7 @@ bool esNumeroValido(string& entrada) {
     return true;
 }
 
-vector<vector<int>> leerGrafoDesdeArchivo(string &nombreArchivo)
-{
+vector<vector<int>> leerGrafoDesdeArchivo(string &nombreArchivo){
 
     vector<vector<int>> matrix;
 
@@ -163,10 +133,10 @@ vector<vector<int>> leerGrafoDesdeArchivo(string &nombreArchivo)
     return matrix;
 }
 
-int chartoInt(char nodo)
-{
+int chartoInt(char nodo){
     return nodo -'A';
 }
+
 void buscarNodos(vector<vector<int>> &grafo)
 {
     int n = grafo.size();

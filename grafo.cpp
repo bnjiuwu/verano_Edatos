@@ -1,7 +1,9 @@
 #include <iostream>
 #include <vector>
+
 #include <fstream>
 #include <sstream>
+
 #include <climits>
 #include <string>
 
@@ -25,8 +27,8 @@ private:
     }
 
 public:
-    // Constructor para cargar el grafo desde un archivo
-    Grafo(const string& archivo) {
+    //  cargar el grafo desde un archivo
+    Grafo(string& archivo) {
         ifstream arch(archivo);
         string linea;
 
@@ -60,11 +62,12 @@ public:
 
         for (int i = 0; i < n - 1; ++i) {
             int u = menorDistancia(distancias, visitados);
-            if (u == -1) break; // Si no hay mas nodos accesibles
+            if (u == -1) break; // si ya se visitaron todos los nodos
+
 
             visitados[u] = true;
 
-            if (u == destino) break; // Si llegamos al nodo destino
+            if (u == destino) break; // si alcanza el nodo destino
 
             for (int k = 0; k < n; ++k) {
                 if (!visitados[k] && matrizAdyacencia[u][k] && distancias[u] != INT_MAX && distancias[u] + matrizAdyacencia[u][k] < distancias[k]) {
