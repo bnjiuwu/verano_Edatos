@@ -1,13 +1,13 @@
 #include <iostream>
-#include <fstream>
 #include <vector>
+
 #include <sstream>
+#include <fstream>
+
 #include <string>
 #include <climits>
 #include <queue>
 using namespace std;
-
-
 
 void bfs(vector<vector<int>> &graf, int inicio)
 {
@@ -15,7 +15,6 @@ void bfs(vector<vector<int>> &graf, int inicio)
     int n = graf.size();
     vector<bool> visited(n, false);
     queue<int> kyu;
-    
 
     // acciones
     visited[inicio] = true;
@@ -39,13 +38,16 @@ void bfs(vector<vector<int>> &graf, int inicio)
     }
 }
 
-int menorDistanci(vector<int>&caminos, vector<bool>& visited){
+int menorDistanci(vector<int> &caminos, vector<bool> &visited)
+{
 
     int menor = INT_MAX;
     int menorIndex = -1;
 
-    for(int i = 0; i < caminos.size(); ++i){
-        if(!visited[i] && caminos[i] <= menor){
+    for (int i = 0; i < caminos.size(); ++i)
+    {
+        if (!visited[i] && caminos[i] <= menor)
+        {
             menor = caminos[i];
             menorIndex = i;
         }
@@ -53,150 +55,192 @@ int menorDistanci(vector<int>&caminos, vector<bool>& visited){
     return menorIndex;
 }
 
-pair<vector<int>,int> dikstra(vector<vector<int>>& graf, int desitno)
+pair<vector<int>, int> dijkstra(vector<vector<int>> &graf, int desitno)
 {
     int n = graf.size();
-    
-    vector<int> caminosRec(n,-1); // follow da way
+
+    vector<int> caminosRec(n, -1); // follow da way
     vector<bool> visited(n, false);
-    vector<int> distancias(n,INT_MAX);
+    vector<int> distancias(n, INT_MAX);
 
     distancias[0] = 0;
 
-    for(int i = 0;i < n - 1; ++i){
-        //elegir nodo con la distacia menor
-        int u = menorDistanci(distancias,visited);
+    for (int i = 0; i < n - 1; ++i)
+    {
+        // elegir nodo con la distacia menor
+        int u = menorDistanci(distancias, visited);
         visited[u] = true;
-        if(u == -1) break; // si ya se visitaron todos los nodos
-        
-        if(u == desitno){ // si alcanza el nodo destino
-            break;
+        if (u == -1)
+            break; // si ya se visitaron todos los nodos
 
+        if (u == desitno)
+        { // si alcanza el nodo destino
+            break;
         }
         // actuaizar las distancias de los nodos adyacentes no visitaddos
         for (int k = 0; k < n; ++k)
         {
-            if(!visited[k] && graf[u][k] && distancias[u] != INT_MAX && distancias[u] + graf[u][k] < distancias[k]){
+            if (!visited[k] && graf[u][k] && distancias[u] != INT_MAX && distancias[u] + graf[u][k] < distancias[k])
+            {
 
                 distancias[k] = distancias[u] + graf[u][k];
-                
+
                 caminosRec[k] = u;
             }
         }
     }
 
-
-    if(distancias[desitno] == INT_MAX) return {{},-1};
+    if (distancias[desitno] == INT_MAX)
+        return {{}, -1};
 
     vector<int> caminosTomados;
     // chantar caminos recorridos
-    for (int actual = desitno; actual != -1; actual = caminosRec[actual]) {
+    for (int actual = desitno; actual != -1; actual = caminosRec[actual])
+    {
         caminosTomados.push_back(actual);
     }
 
-    // Invertir el camino 
+    // Invertir el camino
     vector<int> caminoOrdenado(caminosTomados.size());
-    for (int i = 0; i < caminosTomados.size(); ++i) {
+    for (int i = 0; i < caminosTomados.size(); ++i)
+    {
         caminoOrdenado[caminosTomados.size() - 1 - i] = caminosTomados[i];
     }
 
-    return {caminoOrdenado,distancias[desitno]};
+    return {caminoOrdenado, distancias[desitno]};
 }
 
-int chartoInt(char nodo)
+void printCaminosDestino(vector<int> &caminos)
 {
 
-    // A - Z == 65 - 90
-    int nodo_int = nodo;
-    if(nodo_int < 65 || nodo_int > 90){
-        cout <<"nodo no permitido. (solo A -> Z) :v "<<endl;
-        return -1;
-    }
-    return nodo_int - 65;
-}
-
-
-void printCaminosDestino(vector<int>& caminos){
-
-    for(int i = 0; i < caminos.size(); i++){
+    for (int i = 0; i < caminos.size(); i++)
+    {
         char x = caminos[i] + 65;
-        cout<<x<<" -> ";
+        cout << x << " -> ";
     }
-    cout<<endl;
-
+    cout << endl;
 }
 
-vector<vector<int>> leerGrafoDesdeArchivo(string& nombreArchivo) {
-    ifstream arch(nombreArchivo);
+bool esNumeroValido(const string& entrada) {
+    // Verificar si toda la entrada son 
+    for (char c : entrada) {
+        if (!isdigit(c)) {
+            return false;
+        }
+    }
+    return true;
+}
 
-    string linea;
+vector<vector<int>> leerGrafoDesdeArchivo(string &nombreArchivo)
+{
+
     vector<vector<int>> matrix;
 
+    ifstream arch(nombreArchivo);
+    string linea;
 
-    cout<<nombreArchivo<<endl;
-
-    if(getline(arch,linea)){
+    if (getline(arch, linea))
+    {
         int n = stoi(linea);
 
-        while(getline(arch,linea)){
+        while (getline(arch, linea))
+        {
             vector<int> fila;
             stringstream ss(linea);
 
             string valopos;
-            while(getline(ss,valopos,' ')){
+            while (getline(ss, valopos, ' '))
+            {
                 fila.push_back(stoi(valopos));
             }
             matrix.push_back(fila);
         }
-    } else {
-        cout << "No se pudo abrir el archivo.\n";
+    }
+    else
+    {
+        cout << "No se pudo abrir el archivo." << endl;
     }
 
     return matrix;
 }
 
+int chartoInt(char nodo)
+{
+    return nodo -'A';
+}
+void buscarNodos(vector<vector<int>> &grafo)
+{
+    int n = grafo.size();
+    char x; // char nodo letra
+    int continuar;
+    string entrada;
+
+    do
+    {
+        cout << "ingrese nodo destino(A -> " << char('A'+ n-1) << ") EN MAYUSCULA: ";
+        cin >> x;
+        int destino = chartoInt(x);
+        if (destino < 0 || destino >= n)
+        {
+            cout<<"nodo invalio o no encontrado"<<endl;
+            continue;
+        }
+
+        auto[camino,distancia] = dijkstra(grafo, destino);
+
+
+        if (distancia == -1) {
+            cout << "No hay un camino hacia el nodo " << x << endl;
+        } else {
+            cout << "Camino: ";
+            for (char nodo : camino) {
+                cout << char('A' + nodo) << " -> ";
+            }
+            cout<<endl;
+            cout << "Distancia total: " << distancia << endl;
+        }
+       
+       // Preguntar si desea continuar, con control de errores
+        do {
+            cout << "Desea buscar otro nodo? (1 = Si, 0 = No): ";
+            cin >> entrada;
+            if (esNumeroValido(entrada)) {
+                continuar = stoi(entrada); // Convertir a entero
+                if (continuar != 1 && continuar != 0) {
+                    cout << "Entrada invalida. Ingrese un numero (1 para Si, 0 para No)"<<endl;
+                }
+            } else {
+                cout << "Entrada invalida. Ingrese un numero (1 para Si, 0 para No)"<<endl;
+                continuar = -1; // Forzar repetición del bucle
+            }
+        } while (continuar != 1 && continuar != 0);
+
+
+        if (continuar == 0) {
+            cout << "Finalizando programa."<<endl;
+            break;
+        }
+       
+    } while (true);
+}
 int main()
 {
-
-     string filename = "adyMatriz.txt";  // Asegúrate de usar una ruta relativa válida
+    string filename = "adyMatriz.txt";
     vector<vector<int>> matrix = leerGrafoDesdeArchivo(filename);
 
     // Mostrar la matriz
-    cout << "Matriz leida desde el archivo:\n";
-    for (const auto& row : matrix) {
-        for (int value : row) {
-            cout << value << " ";
+    cout << "Matriz leida desde el archivo:"<<endl;
+    for (auto fila : matrix)
+    {
+        for (int dato : fila)
+        {
+            cout << dato << " ";
         }
         cout << endl;
     }
 
-
-    char x;
-    cout<<"ingrese destino(A -> Z):  ";
-    cin>>x;
-
-    int destino = chartoInt(x);
-    cout<<destino<<endl;
-
-    vector<vector<int>> adj = {
-        {0, 2, 3, 0, 0, 0, 0},
-        {0, 0, 0, 4, 0, 0, 0},
-        {0, 0, 0, 1, 0, 0, 0},
-        {0, 0, 0, 0, 1, 2, 0},
-        {0, 0, 0, 0, 0, 0, 2},
-        {0, 0, 0, 0, 0, 0, 3},
-        {0, 0, 0, 0, 0, 0, 0}
-
-    };
-   auto result =  dikstra(adj,destino);
+    buscarNodos(matrix);
 
 
-
-
-    cout<<"camino tomado para llegar al destino"<<endl;
-   printCaminosDestino(result.first);
-
-    cout<<"distancia total "<<result.second<<endl;
-    
     return 0;
 };
