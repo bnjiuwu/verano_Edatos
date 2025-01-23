@@ -14,7 +14,7 @@ Pasos básicos del algoritmo:
 - Iterar sobre los nodos no visitados y actualizar las distancias de los nodos adyacentes si se encuentra un camino más corto.
 - Repetir hasta que todos los nodos hayan sido procesados o hasta que se alcance el nodo destino.
 
-
+## Archivos txt.
 En la carpeta output hay 6 archivos .txt con diferentes grafos. Para probarlos cambiar el nombre del archivo en la linea 224 en el main().
 
 ## Runear el codigo
