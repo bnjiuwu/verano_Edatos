@@ -18,12 +18,13 @@ Pasos básicos del algoritmo:
 Compilar el codigo utilizando el siguiente comando en la terminal: g++ nombreDelArchivo.cpp -o nombreX 
 
 (*) Comppilar con modo depuracion (opcional)(util para debugging): g++ nombreDelArchivo.cpp -o nombreX -g
+
 Para runear una vez compilado: ./nombreX
 
 
 
 ## Archivos txt
-En la carpeta output hay 6 archivos .txt con diferentes grafos. Para probarlos cambiar el nombre del archivo en la linea 224 en el main().
+En la carpeta output hay 6 archivos .txt con diferentes grafos. Para probarlos cambiar el nombre del archivo en la linea 195 en el main().
 
 ## Para runear el codigo con el archivo txt seleccionado.
 ### En codespace
