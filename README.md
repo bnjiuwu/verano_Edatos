@@ -18,6 +18,7 @@ Pasos básicos del algoritmo:
 Compilar el codigo utilizando el siguiente comando en la terminal: g++ nombreDelArchivo.cpp -o nombreX 
 
 (*) Comppilar con modo depuracion (opcional)(util para debugging): g++ nombreDelArchivo.cpp -o nombreX -g
+
 Para runear una vez compilado: ./nombreX
 
 
