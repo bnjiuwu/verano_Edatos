@@ -24,7 +24,7 @@ Para runear una vez compilado: ./nombreX
 
 ## Archivos txt
 En la carpeta output hay 6 archivos .txt con diferentes grafos. Para probarlos cambiar el nombre del archivo en la linea 224 en el main().
--Los archivos txt estan en la carpeta "output" junto a al ejecutable.
+- Los archivos txt estan en la carpeta "output" junto a al ejecutable.
 
 ## Para runear el codigo con el archivo txt seleccionado.
 ### En codespace
