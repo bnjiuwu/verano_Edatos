@@ -111,18 +111,25 @@ vector<vector<int>> leerGrafoDesdeArchivo(string &nombreArchivo){
     if (getline(arch, linea))
     {
         int n = stoi(linea);
+        if(n >26){
+            cout<<endl;
+            cout<<"Archivo excede el maximo. Solo se puede largo 26 que es el numero total de letras en el abecedario ingles. FAVOR DE MOIFICAR EL txt"<<endl;
+            cout<<endl;
+            exit(1);
+        }else{
 
-        while (getline(arch, linea))
-        {
-            vector<int> fila;
-            stringstream ss(linea);
-
-            string valopos;
-            while (getline(ss, valopos, ' '))
+            while (getline(arch, linea))
             {
-                fila.push_back(stoi(valopos));
+                vector<int> fila;
+                stringstream ss(linea);
+
+                string valopos;
+                while (getline(ss, valopos, ' '))
+                {
+                    fila.push_back(stoi(valopos));
+                }
+                matrix.push_back(fila);
             }
-            matrix.push_back(fila);
         }
     }
     else
@@ -192,7 +199,7 @@ void buscarNodos(vector<vector<int>> &grafo)
 }
 int main()
 {
-    string filename = "grafo_1.txt";
+    string filename = "adyMatriz.txt";
     vector<vector<int>> matrix = leerGrafoDesdeArchivo(filename);
 
     // Mostrar la matriz
