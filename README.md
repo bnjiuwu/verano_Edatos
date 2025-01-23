@@ -1,4 +1,6 @@
-Benjamin Vega 21648877-6
+Benjamin Vega 21648877-6 
+
+ULTIMO PUSH 19:58:46 😭😭😭
 # Algoritmo de Dijkstra para Encontrar Caminos Mínimos
 
 El codigo implementa el algoritmo de Dijkstra para encontrar el camino más corto desde un nodo de origen (en este caso, el nodo 'A') hasta cualquier nodo destino en un grafo dirigido y ponderado. El programa lee una matriz de adyacencia desde un archivo de texto, que representa el grafo, y permite al usuario seleccionar nodos destino para calcular el camino más corto y la distancia total.
