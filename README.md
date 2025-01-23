@@ -1,5 +1,18 @@
 # verano_Edatos
 
+
+
+
+
+Compilar el codigo utilizando el siguiente comando en la terminal: g++ nombreDelArchivo.cpp -o nombreX
+(*) Comppilar con modo depuracion (opcional)(util para debugging): g++ nombreDelArchivo.cpp -o nombreX -g
+Para runear una vez compilado: ./nombreX
+
+
+
+
+
+
 Hacer un dijkstra del camino más corto para la segunda prueba.
 
 va a tener un txt con un archivo de texto con la anchura y altura de la matriz de n x n. Esa s la matriz de adyacencia.
