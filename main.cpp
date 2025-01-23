@@ -128,6 +128,7 @@ vector<vector<int>> leerGrafoDesdeArchivo(string &nombreArchivo){
     else
     {
         cout << "No se pudo abrir el archivo." << endl;
+        exit(1);
     }
 
     return matrix;
