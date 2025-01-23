@@ -100,28 +100,27 @@ pair<vector<int>, int> dijkstra(vector<vector<int>> &graf, int desitno)
         caminosTomados.push_back(actual);
     }
 
-    // Invertir el camino
+    // ordenar el vector camino
     vector<int> caminoOrdenado(caminosTomados.size());
     for (int i = 0; i < caminosTomados.size(); ++i)
     {
         caminoOrdenado[caminosTomados.size() - 1 - i] = caminosTomados[i];
     }
-
+    //retornar vector camino y distancia recorrida
     return {caminoOrdenado, distancias[desitno]};
 }
 
-void printCaminosDestino(vector<int> &caminos)
+void printCaminosDestino(vector<int>& caminos)
 {
 
-    for (int i = 0; i < caminos.size(); i++)
-    {
-        char x = caminos[i] + 65;
-        cout << x << " -> ";
-    }
-    cout << endl;
+    cout << "Camino: ";
+            for (char nodo : caminos) {
+                cout << char('A' + nodo) << " -> ";
+            }
+            cout<<"fin"<<endl;
 }
 
-bool esNumeroValido(const string& entrada) {
+bool esNumeroValido(string& entrada) {
     // Verificar si toda la entrada son 
     for (char c : entrada) {
         if (!isdigit(c)) {
@@ -192,10 +191,7 @@ void buscarNodos(vector<vector<int>> &grafo)
         if (distancia == -1) {
             cout << "No hay un camino hacia el nodo " << x << endl;
         } else {
-            cout << "Camino: ";
-            for (char nodo : camino) {
-                cout << char('A' + nodo) << " -> ";
-            }
+            printCaminosDestino(camino);
             cout<<endl;
             cout << "Distancia total: " << distancia << endl;
         }
@@ -217,7 +213,7 @@ void buscarNodos(vector<vector<int>> &grafo)
 
 
         if (continuar == 0) {
-            cout << "Finalizando programa."<<endl;
+            cout << "Finalizando programa"<<endl;
             break;
         }
        
@@ -225,7 +221,7 @@ void buscarNodos(vector<vector<int>> &grafo)
 }
 int main()
 {
-    string filename = "adyMatriz.txt";
+    string filename = "grafo_1.txt";
     vector<vector<int>> matrix = leerGrafoDesdeArchivo(filename);
 
     // Mostrar la matriz
